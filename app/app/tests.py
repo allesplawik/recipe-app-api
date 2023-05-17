@@ -27,5 +27,3 @@ class CalcTestCase(SimpleTestCase):
 
         # then
         self.assertEqual(res, expected_numbers)
-
-
