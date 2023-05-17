@@ -3,5 +3,4 @@ def add(x: int, y: int) -> int:
 
 
 def even_numbers(numbers: list[int]) -> list[int]:
-    # return [number for number in numbers if number % 2 == 0]
-    return []
+    return [number for number in numbers if number % 2 == 0]
