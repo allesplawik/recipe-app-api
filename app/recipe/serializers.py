@@ -3,7 +3,6 @@
 from rest_framework import serializers
 
 from core.models import Recipe
-from user.serializers import UserSerializer
 
 
 class RecipeSerializer(serializers.ModelSerializer):
