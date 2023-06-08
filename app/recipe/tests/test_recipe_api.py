@@ -25,7 +25,7 @@ def create_recipe(user, **params):
 
     defaults.update(params)
 
-    recipe = Recipe.objects.create(user, **defaults)
+    recipe = Recipe.objects.create(user=user, **defaults)
     return recipe
 
 
@@ -64,7 +64,7 @@ class PrivateRecipeTests(TestCase):
         recipes = Recipe.objects.all().order_by('-id')
         serializer = RecipeSerializer(recipes, many=True)
 
-        self.assertEqual(res.status, status.HTTP_200_OK)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
 
     def test_recipe_list_limited_to_user(self):
