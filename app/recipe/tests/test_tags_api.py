@@ -21,6 +21,11 @@ def create_tag(user, **params):
     return Tag.objects.create(user=user, **params)
 
 
+def detail_url(tag_id):
+    """Create and return tag detgail url."""
+    return reverse('recipe:tag-detail', args=(tag_id,))
+
+
 class PublicTagsApiTests(TestCase):
     def setUp(self) -> None:
         self.client = APIClient()
@@ -65,3 +70,29 @@ class PrivateTagsApiTest(TestCase):
         self.assertEqual(len(res.data), 2)
         for tag in tags:
             self.assertEqual(tag.user, self.user)
+
+    def test_update_tags(self):
+        """Update tag successfully assigned to logged in user."""
+        tag = create_tag(user=self.user, name="Tag")
+        url = detail_url(tag.id)
+        payload = {
+            "name": "Updated tag"
+        }
+
+        res = self.client.patch(url, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        tag.refresh_from_db()
+        self.assertEqual(tag.name, payload['name'])
+
+    def test_delete_tag(self):
+        """Delete tag"""
+        tag = create_tag(user=self.user, name="Asgard")
+        url = detail_url(tag.id)
+        res = self.client.delete(url)
+
+        self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
+        tag = Tag.objects.filter(user=self.user)
+        self.assertFalse(tag.exists())
+
+
