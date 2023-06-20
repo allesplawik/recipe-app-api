@@ -363,5 +363,3 @@ class PrivateRecipeTests(TestCase):
         for ingredient in payload['ingredients']:
             exists = recipe.ingredients.filter(name=ingredient['name'], user=self.user).exists()
             self.assertTrue(exists)
-
-
